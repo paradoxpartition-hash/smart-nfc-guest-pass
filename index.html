@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ============================================================
+       SEO META — edit per language in the `meta` key of each translation
+       ============================================================ -->
+  <title>Smart NFC Guest Pass – Hostfully Marketplace Add-On</title>
+  <meta name="description" content="Automatically generate secure NFC wallet passes for vacation rental guests. Works with TTLock. Apple & Google Wallet compatible. No app required." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://yourdomain.com/" />
+
+  <!-- OpenGraph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://yourdomain.com/" />
+  <meta property="og:title"       content="Smart NFC Guest Pass – Hostfully Add-On" />
+  <meta property="og:description" content="Secure, automated NFC passes for vacation rental guests. Apple & Google Wallet. No app needed." />
+  <meta property="og:image"       content="https://yourdomain.com/og-image.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Smart NFC Guest Pass" />
+  <meta name="twitter:description" content="Secure, automated NFC passes for vacation rental guests." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy:    '#0B1F3B',
+            brand:   '#2563EB',
+            cta:     '#10B981',
+            surface: '#F8FAFC',
+            ink:     '#0F172A',
+          },
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            body:    ['DM Sans', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ============================================================
+       BASE & CUSTOM UTILITIES
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #F8FAFC;
+      color: #0F172A;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, .font-display { font-family: 'Syne', sans-serif; }
+
+    /* --- Gradient mesh background --- */
+    .hero-mesh {
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 0%, rgba(37,99,235,0.13) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 80% 100%, rgba(16,185,129,0.10) 0%, transparent 70%),
+        #F8FAFC;
+    }
+
+    .navy-mesh {
+      background:
+        radial-gradient(ellipse 70% 60% at 10% 50%, rgba(37,99,235,0.25) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 60% at 90% 30%, rgba(16,185,129,0.15) 0%, transparent 65%),
+        #0B1F3B;
+    }
+
+    /* --- Card glass effect --- */
+    .glass-card {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    /* --- CTA button --- */
+    .btn-cta {
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      border-radius: 9999px;
+      padding: 0.9rem 2.4rem;
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      box-shadow: 0 4px 24px rgba(16,185,129,0.30);
+      display: inline-block;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-cta:hover {
+      transform: scale(1.04) translateY(-1px);
+      box-shadow: 0 8px 32px rgba(16,185,129,0.38);
+    }
+
+    /* --- Secondary button --- */
+    .btn-outline {
+      border: 2px solid #2563EB;
+      color: #2563EB;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      border-radius: 9999px;
+      padding: 0.85rem 2.2rem;
+      font-size: 1rem;
+      transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .btn-outline:hover {
+      background: #2563EB;
+      color: #fff;
+      transform: scale(1.03);
+    }
+
+    /* --- Feature card hover --- */
+    .feat-card {
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+    .feat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(11,31,59,0.12);
+    }
+
+    /* --- Step connector line (desktop) --- */
+    .step-line::after {
+      content: '';
+      position: absolute;
+      top: 2rem;
+      right: -50%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #2563EB, #10B981);
+      opacity: 0.3;
+    }
+
+    /* --- Language switcher --- */
+    .lang-btn {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      color: inherit;
+      border-radius: 9999px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      letter-spacing: 0.05em;
+    }
+    .lang-btn.active {
+      background: #2563EB;
+      border-color: #2563EB;
+      color: #fff;
+    }
+    .lang-btn:hover:not(.active) {
+      background: rgba(37,99,235,0.12);
+      border-color: #2563EB;
+      color: #2563EB;
+    }
+
+    /* --- Animated fade-in on scroll --- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* --- Badge pill --- */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(37,99,235,0.08);
+      border: 1px solid rgba(37,99,235,0.2);
+      color: #2563EB;
+      border-radius: 9999px;
+      padding: 0.3rem 1rem;
+      font-size: 0.8rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .badge-green {
+      background: rgba(16,185,129,0.08);
+      border-color: rgba(16,185,129,0.25);
+      color: #059669;
+    }
+
+    /* Dot pulse animation for badge */
+    .dot-pulse {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #10B981;
+      animation: pulse 1.8s infinite;
+      display: inline-block;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    /* NFC icon ring animation */
+    .nfc-ring {
+      animation: ring 2.4s ease-in-out infinite;
+    }
+    @keyframes ring {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50%       { transform: scale(1.08); opacity: 1; }
+    }
+
+    /* Hide/show utility */
+    [data-t] { /* all translatable nodes get this */ }
+
+    @media (max-width: 640px) {
+      .step-line::after { display: none; }
+    }
+  </style>
+</head>
+
+<body class="hero-mesh">
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4" style="background:rgba(248,250,252,0.82);backdrop-filter:blur(16px);border-bottom:1px solid rgba(11,31,59,0.06);">
+  <div class="max-w-6xl mx-auto flex items-center justify-between">
+
+    <!-- Logo / Brand -->
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#2563EB,#0B1F3B)">
+        <!-- NFC icon -->
+        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </div>
+      <span class="font-display font-800 text-navy text-base tracking-tight" style="font-weight:800;">Smart NFC</span>
+    </div>
+
+    <!-- Language switcher -->
+    <div class="flex items-center gap-1.5" id="lang-switcher" aria-label="Language switcher">
+      <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" data-lang="de" onclick="setLang('de')">DE</button>
+      <button class="lang-btn" data-lang="nl" onclick="setLang('nl')">NL</button>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     HERO SECTION
+     ============================================================ -->
+<section class="pt-36 pb-24 px-6 text-center">
+  <div class="max-w-4xl mx-auto reveal">
+
+    <!-- Early access badge -->
+    <div class="mb-6 flex justify-center">
+      <span class="badge">
+        <span class="dot-pulse"></span>
+        <span data-t="badge_early"></span>
+      </span>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="font-display text-5xl sm:text-6xl md:text-7xl font-extrabold text-navy leading-tight mb-6" data-t="hero_headline"></h1>
+
+    <!-- Subheadline -->
+    <p class="text-lg sm:text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed" data-t="hero_sub"></p>
+
+    <!-- CTA -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <!-- ============================================================
+           CTA LINK — change href to your Hostfully Marketplace URL
+           ============================================================ -->
+      <a href="https://marketplace.hostfully.com/smart-nfc-guest-pass" class="btn-cta" data-t="cta_primary"></a>
+      <a href="#how-it-works" class="btn-outline" data-t="cta_secondary"></a>
+    </div>
+    <p class="mt-4 text-xs text-slate-400 font-body" data-t="cta_micro"></p>
+
+    <!-- Hero visual — NFC phone mockup (pure CSS/SVG) -->
+    <div class="mt-20 flex justify-center">
+      <div class="relative">
+        <!-- Glow blob -->
+        <div class="absolute inset-0 rounded-3xl blur-3xl opacity-20" style="background:linear-gradient(135deg,#2563EB,#10B981);transform:scale(1.2);"></div>
+
+        <!-- Phone card -->
+        <div class="relative glass-card rounded-3xl p-8 shadow-2xl" style="max-width:340px;">
+          <div class="rounded-2xl p-6 mb-4 flex flex-col gap-3" style="background:linear-gradient(135deg,#0B1F3B 0%,#1e3a6e 100%);">
+            <!-- Wallet pass header -->
+            <div class="flex items-center justify-between">
+              <span class="text-white text-xs font-display font-bold tracking-widest uppercase opacity-70">HOSTFULLY PASS</span>
+              <svg class="w-6 h-6 nfc-ring" fill="none" stroke="#10B981" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.566 14.587-5.566 20.152 0M12 20.25h.008v.008H12v-.008z"/>
+              </svg>
+            </div>
+            <!-- Guest name -->
+            <div>
+              <div class="text-white text-xl font-display font-bold">Sarah Johnson</div>
+              <div class="text-blue-300 text-xs opacity-80" data-t="pass_villa"></div>
+            </div>
+            <!-- Dates row -->
+            <div class="flex justify-between mt-2">
+              <div>
+                <div class="text-slate-400 text-xs uppercase tracking-wider" data-t="pass_checkin"></div>
+                <div class="text-white font-semibold text-sm">Jun 14, 2025</div>
+              </div>
+              <div class="text-right">
+                <div class="text-slate-400 text-xs uppercase tracking-wider" data-t="pass_checkout"></div>
+                <div class="text-white font-semibold text-sm">Jun 21, 2025</div>
+              </div>
+            </div>
+            <!-- Barcode placeholder -->
+            <div class="mt-3 flex gap-0.5 justify-center items-end h-8">
+              <script>
+                // Render barcode-ish decorative lines inline
+                document.addEventListener('DOMContentLoaded', () => {
+                  const bc = document.getElementById('barcode');
+                  if (!bc) return;
+                  for (let i = 0; i < 38; i++) {
+                    const b = document.createElement('div');
+                    b.style.cssText = `width:${Math.random()>0.5?2:1}px;height:${60+Math.random()*40}%;background:rgba(255,255,255,${0.4+Math.random()*0.5});border-radius:2px;`;
+                    bc.appendChild(b);
+                  }
+                });
+              </script>
+              <div id="barcode" class="flex gap-0.5 justify-center items-end h-8 w-full"></div>
+            </div>
+          </div>
+
+          <!-- Wallet badges -->
+          <div class="flex gap-2 justify-center">
+            <span class="flex items-center gap-1.5 bg-black text-white text-xs font-semibold rounded-full px-3 py-1.5">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              Apple Wallet
+            </span>
+            <span class="flex items-center gap-1.5 text-xs font-semibold rounded-full px-3 py-1.5" style="background:#4285F4;color:white;">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+              Google Wallet
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     PROBLEM SECTION
+     ============================================================ -->
+<section class="py-20 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="reveal text-center mb-14">
+      <h2 class="font-display text-4xl sm:text-5xl font-extrabold text-navy mb-4" data-t="problem_title"></h2>
+      <p class="text-slate-500 text-lg max-w-xl mx-auto" data-t="problem_sub"></p>
+    </div>
+
+    <div class="grid sm:grid-cols-3 gap-6">
+      <!-- Problem card 1 -->
+      <div class="reveal glass-card rounded-2xl p-7 feat-card">
+        <div class="w-11 h-11 rounded-xl bg-red-50 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-navy text-lg mb-2" data-t="prob1_title"></h3>
+        <p class="text-slate-500 text-sm leading-relaxed" data-t="prob1_body"></p>
+      </div>
+      <!-- Problem card 2 -->
+      <div class="reveal glass-card rounded-2xl p-7 feat-card" style="transition-delay:0.1s">
+        <div class="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-navy text-lg mb-2" data-t="prob2_title"></h3>
+        <p class="text-slate-500 text-sm leading-relaxed" data-t="prob2_body"></p>
+      </div>
+      <!-- Problem card 3 -->
+      <div class="reveal glass-card rounded-2xl p-7 feat-card" style="transition-delay:0.2s">
+        <div class="w-11 h-11 rounded-xl bg-purple-50 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 8.25h3m-3 3h3m-6 3h.008v.008H9.75v-.008z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-navy text-lg mb-2" data-t="prob3_title"></h3>
+        <p class="text-slate-500 text-sm leading-relaxed" data-t="prob3_body"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SOLUTION SECTION
+     ============================================================ -->
+<section class="py-20 px-6 navy-mesh text-white">
+  <div class="max-w-5xl mx-auto text-center reveal">
+    <span class="badge badge-green mb-6 inline-flex" style="background:rgba(16,185,129,0.15);border-color:rgba(16,185,129,0.35);color:#10B981;">
+      <span data-t="solution_badge"></span>
+    </span>
+    <h2 class="font-display text-4xl sm:text-5xl font-extrabold mb-6" data-t="solution_title"></h2>
+    <p class="text-slate-300 text-lg max-w-2xl mx-auto mb-12 leading-relaxed" data-t="solution_sub"></p>
+
+    <!-- 3 pillars -->
+    <div class="grid sm:grid-cols-3 gap-6 text-left">
+      <div class="reveal rounded-2xl p-7" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);">
+        <div class="text-3xl mb-3">🔐</div>
+        <h3 class="font-display font-bold text-white text-lg mb-2" data-t="sol1_title"></h3>
+        <p class="text-slate-400 text-sm leading-relaxed" data-t="sol1_body"></p>
+      </div>
+      <div class="reveal rounded-2xl p-7" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);transition-delay:0.1s;">
+        <div class="text-3xl mb-3">⚡</div>
+        <h3 class="font-display font-bold text-white text-lg mb-2" data-t="sol2_title"></h3>
+        <p class="text-slate-400 text-sm leading-relaxed" data-t="sol2_body"></p>
+      </div>
+      <div class="reveal rounded-2xl p-7" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);transition-delay:0.2s;">
+        <div class="text-3xl mb-3">📱</div>
+        <h3 class="font-display font-bold text-white text-lg mb-2" data-t="sol3_title"></h3>
+        <p class="text-slate-400 text-sm leading-relaxed" data-t="sol3_body"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     HOW IT WORKS — 3 STEPS
+     ============================================================ -->
+<section id="how-it-works" class="py-24 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="reveal text-center mb-16">
+      <h2 class="font-display text-4xl sm:text-5xl font-extrabold text-navy mb-4" data-t="how_title"></h2>
+      <p class="text-slate-500 text-lg" data-t="how_sub"></p>
+    </div>
+
+    <div class="grid sm:grid-cols-3 gap-10 relative">
+      <!-- Step 1 -->
+      <div class="reveal text-center relative step-line">
+        <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-5 font-display font-extrabold text-xl text-white" style="background:linear-gradient(135deg,#2563EB,#1d4ed8)">1</div>
+        <h3 class="font-display font-bold text-navy text-lg mb-2" data-t="step1_title"></h3>
+        <p class="text-slate-500 text-sm leading-relaxed" data-t="step1_body"></p>
+      </div>
+      <!-- Step 2 -->
+      <div class="reveal text-center relative step-line" style="transition-delay:0.12s">
+        <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-5 font-display font-extrabold text-xl text-white" style="background:linear-gradient(135deg,#2563EB,#1d4ed8)">2</div>
+        <h3 class="font-display font-bold text-navy text-lg mb-2" data-t="step2_title"></h3>
+        <p class="text-slate-500 text-sm leading-relaxed" data-t="step2_body"></p>
+      </div>
+      <!-- Step 3 -->
+      <div class="reveal text-center" style="transition-delay:0.24s">
+        <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-5 font-display font-extrabold text-xl text-navy" style="background:linear-gradient(135deg,#10B981,#059669)">3</div>
+        <h3 class="font-display font-bold text-navy text-lg mb-2" data-t="step3_title"></h3>
+        <p class="text-slate-500 text-sm leading-relaxed" data-t="step3_body"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FEATURES GRID
+     ============================================================ -->
+<section class="py-20 px-6" style="background:rgba(11,31,59,0.03);">
+  <div class="max-w-5xl mx-auto">
+    <div class="reveal text-center mb-14">
+      <h2 class="font-display text-4xl sm:text-5xl font-extrabold text-navy mb-4" data-t="features_title"></h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="reveal glass-card rounded-2xl p-6 feat-card"><div class="text-2xl mb-3">🕐</div><h4 class="font-display font-bold text-navy mb-1" data-t="feat1_t"></h4><p class="text-slate-500 text-sm" data-t="feat1_b"></p></div>
+      <div class="reveal glass-card rounded-2xl p-6 feat-card" style="transition-delay:.06s"><div class="text-2xl mb-3">🔒</div><h4 class="font-display font-bold text-navy mb-1" data-t="feat2_t"></h4><p class="text-slate-500 text-sm" data-t="feat2_b"></p></div>
+      <div class="reveal glass-card rounded-2xl p-6 feat-card" style="transition-delay:.12s"><div class="text-2xl mb-3">📲</div><h4 class="font-display font-bold text-navy mb-1" data-t="feat3_t"></h4><p class="text-slate-500 text-sm" data-t="feat3_b"></p></div>
+      <div class="reveal glass-card rounded-2xl p-6 feat-card" style="transition-delay:.18s"><div class="text-2xl mb-3">🤝</div><h4 class="font-display font-bold text-navy mb-1" data-t="feat4_t"></h4><p class="text-slate-500 text-sm" data-t="feat4_b"></p></div>
+      <div class="reveal glass-card rounded-2xl p-6 feat-card" style="transition-delay:.24s"><div class="text-2xl mb-3">♻️</div><h4 class="font-display font-bold text-navy mb-1" data-t="feat5_t"></h4><p class="text-slate-500 text-sm" data-t="feat5_b"></p></div>
+      <div class="reveal glass-card rounded-2xl p-6 feat-card" style="transition-delay:.30s"><div class="text-2xl mb-3">🌍</div><h4 class="font-display font-bold text-navy mb-1" data-t="feat6_t"></h4><p class="text-slate-500 text-sm" data-t="feat6_b"></p></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     COMPATIBILITY SECTION
+     ============================================================ -->
+<section class="py-24 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="reveal text-center mb-14">
+      <h2 class="font-display text-4xl sm:text-5xl font-extrabold text-navy mb-4" data-t="compat_title"></h2>
+      <p class="text-slate-500 text-lg max-w-xl mx-auto" data-t="compat_sub"></p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-8 items-start">
+      <!-- Locks -->
+      <div class="reveal glass-card rounded-2xl p-8">
+        <h3 class="font-display font-bold text-navy text-xl mb-5" data-t="compat_locks_title"></h3>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3 text-slate-600 text-sm"><span class="w-5 h-5 rounded-full bg-cta/10 flex items-center justify-center text-cta flex-shrink-0">✓</span><span data-t="lock1"></span></li>
+          <li class="flex items-center gap-3 text-slate-600 text-sm"><span class="w-5 h-5 rounded-full bg-cta/10 flex items-center justify-center text-cta flex-shrink-0">✓</span><span data-t="lock2"></span></li>
+          <li class="flex items-center gap-3 text-slate-600 text-sm"><span class="w-5 h-5 rounded-full bg-cta/10 flex items-center justify-center text-cta flex-shrink-0">✓</span><span data-t="lock3"></span></li>
+          <li class="flex items-center gap-3 text-slate-600 text-sm"><span class="w-5 h-5 rounded-full bg-cta/10 flex items-center justify-center text-cta flex-shrink-0">✓</span><span data-t="lock4"></span></li>
+        </ul>
+      </div>
+      <!-- Wallets -->
+      <div class="reveal glass-card rounded-2xl p-8" style="transition-delay:.1s">
+        <h3 class="font-display font-bold text-navy text-xl mb-5" data-t="compat_wallets_title"></h3>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3 text-slate-600 text-sm"><span class="w-5 h-5 rounded-full bg-brand/10 flex items-center justify-center text-brand flex-shrink-0">✓</span><span data-t="wallet1"></span></li>
+          <li class="flex items-center gap-3 text-slate-600 text-sm"><span class="w-5 h-5 rounded-full bg-brand/10 flex items-center justify-center text-brand flex-shrink-0">✓</span><span data-t="wallet2"></span></li>
+          <li class="flex items-center gap-3 text-slate-600 text-sm"><span class="w-5 h-5 rounded-full bg-brand/10 flex items-center justify-center text-brand flex-shrink-0">✓</span><span data-t="wallet3"></span></li>
+          <li class="flex items-center gap-3 text-slate-600 text-sm"><span class="w-5 h-5 rounded-full bg-brand/10 flex items-center justify-center text-brand flex-shrink-0">✓</span><span data-t="wallet4"></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECURITY SECTION
+     ============================================================ -->
+<section class="py-20 px-6 navy-mesh text-white">
+  <div class="max-w-5xl mx-auto">
+    <div class="reveal text-center mb-14">
+      <h2 class="font-display text-4xl sm:text-5xl font-extrabold mb-4" data-t="security_title"></h2>
+      <p class="text-slate-300 text-lg max-w-xl mx-auto" data-t="security_sub"></p>
+    </div>
+
+    <div class="grid sm:grid-cols-4 gap-4">
+      <div class="reveal rounded-2xl p-6 text-center" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);">
+        <div class="text-3xl mb-3">🔑</div>
+        <h4 class="font-display font-bold text-white text-sm mb-1" data-t="sec1_t"></h4>
+        <p class="text-slate-400 text-xs" data-t="sec1_b"></p>
+      </div>
+      <div class="reveal rounded-2xl p-6 text-center" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);transition-delay:.08s">
+        <div class="text-3xl mb-3">⏱️</div>
+        <h4 class="font-display font-bold text-white text-sm mb-1" data-t="sec2_t"></h4>
+        <p class="text-slate-400 text-xs" data-t="sec2_b"></p>
+      </div>
+      <div class="reveal rounded-2xl p-6 text-center" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);transition-delay:.16s">
+        <div class="text-3xl mb-3">🛡️</div>
+        <h4 class="font-display font-bold text-white text-sm mb-1" data-t="sec3_t"></h4>
+        <p class="text-slate-400 text-xs" data-t="sec3_b"></p>
+      </div>
+      <div class="reveal rounded-2xl p-6 text-center" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);transition-delay:.24s">
+        <div class="text-3xl mb-3">🔄</div>
+        <h4 class="font-display font-bold text-white text-sm mb-1" data-t="sec4_t"></h4>
+        <p class="text-slate-400 text-xs" data-t="sec4_b"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     STRONG CTA SECTION
+     ============================================================ -->
+<section class="py-28 px-6 text-center">
+  <div class="max-w-3xl mx-auto reveal">
+    <div class="mb-6 flex justify-center">
+      <span class="badge badge-green">
+        <span class="dot-pulse"></span>
+        <span data-t="badge_early"></span>
+      </span>
+    </div>
+    <h2 class="font-display text-4xl sm:text-6xl font-extrabold text-navy mb-6 leading-tight" data-t="cta_section_title"></h2>
+    <p class="text-slate-500 text-lg mb-10 leading-relaxed" data-t="cta_section_sub"></p>
+
+    <!-- ============================================================
+         CTA BUTTON — change href to your Hostfully Marketplace URL
+         ============================================================ -->
+    <a href="https://marketplace.hostfully.com/smart-nfc-guest-pass" class="btn-cta text-lg px-10 py-4" data-t="cta_primary"></a>
+    <p class="mt-5 text-xs text-slate-400" data-t="cta_micro"></p>
+
+    <!-- Social proof bar -->
+    <div class="mt-14 flex flex-wrap justify-center gap-8 text-center">
+      <div>
+        <div class="font-display font-extrabold text-2xl text-navy">100%</div>
+        <div class="text-slate-500 text-xs" data-t="stat1"></div>
+      </div>
+      <div>
+        <div class="font-display font-extrabold text-2xl text-navy" data-t="stat2_num"></div>
+        <div class="text-slate-500 text-xs" data-t="stat2"></div>
+      </div>
+      <div>
+        <div class="font-display font-extrabold text-2xl text-navy">0</div>
+        <div class="text-slate-500 text-xs" data-t="stat3"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="py-12 px-6 border-t border-slate-200">
+  <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+    <!-- Brand -->
+    <div class="flex items-center gap-2.5">
+      <div class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#2563EB,#0B1F3B)">
+        <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M12 20.25h.008v.008H12v-.008z"/></svg>
+      </div>
+      <span class="font-display font-bold text-navy text-sm">Smart NFC Guest Pass</span>
+    </div>
+
+    <!-- Footer copy -->
+    <p class="text-slate-400 text-xs text-center" data-t="footer_copy"></p>
+
+    <!-- Links -->
+    <div class="flex gap-6">
+      <!-- ============================================================
+           FOOTER LINKS — update hrefs as needed
+           ============================================================ -->
+      <a href="#" class="text-slate-400 hover:text-navy text-xs transition-colors" data-t="footer_privacy"></a>
+      <a href="#" class="text-slate-400 hover:text-navy text-xs transition-colors" data-t="footer_terms"></a>
+      <a href="mailto:hello@yourdomain.com" class="text-slate-400 hover:text-navy text-xs transition-colors" data-t="footer_contact"></a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ============================================================
+     TRANSLATIONS — ADD / EDIT ALL CONTENT HERE
+     To add a new language:
+       1. Add a new key (e.g., "it") in TRANSLATIONS object below
+       2. Copy all keys from "en" and translate values
+       3. Add a <button> in the lang-switcher div above
+     ============================================================ -->
+<script>
+const TRANSLATIONS = {
+
+  /* ——————————————————————————————————————————
+     ENGLISH (default)
+  —————————————————————————————————————————— */
+  en: {
+    // Meta (used for dynamic <title> and <meta description>)
+    meta_title: "Smart NFC Guest Pass – Hostfully Add-On",
+    meta_desc:  "Automatically generate secure NFC wallet passes for vacation rental guests. Works with TTLock. No app required.",
+
+    // Nav / badge
+    badge_early: "Early Access for Hostfully Users",
+
+    // Hero
+    hero_headline: "Your guests tap in.\nYou do nothing.",
+    hero_sub:      "Smart NFC Guest Pass automatically delivers a secure, time-bound digital key to every guest — straight to Apple Wallet or Google Wallet. Set it once. Runs forever.",
+    cta_primary:   "Get Early Access",
+    cta_secondary: "See How It Works",
+    cta_micro:     "No contracts. Install directly via Hostfully Marketplace.",
+
+    // Pass card (decorative)
+    pass_villa:    "Ocean View Villa — Room 1",
+    pass_checkin:  "Check-in",
+    pass_checkout: "Check-out",
+
+    // Problem section
+    problem_title: "The old way is broken.",
+    problem_sub:   "PIN codes, app downloads, and manual handovers cost you time and frustrate your guests.",
+    prob1_title:   "Forgotten PIN codes",
+    prob1_body:    "Guests forget codes, lock themselves out at midnight, and flood your inbox. Every single booking.",
+    prob2_title:   "Manual check-in chaos",
+    prob2_body:    "Last-minute code resets, calling guests, chasing confirmations — it eats hours you don't have.",
+    prob3_title:   "App-download friction",
+    prob3_body:    "Nobody wants to download an app for a 3-night stay. Guests abandon, you scramble.",
+
+    // Solution section
+    solution_badge:  "The Smart Way",
+    solution_title:  "One add-on. Fully automated. Guests love it.",
+    solution_sub:    "Smart NFC Guest Pass connects to Hostfully and your TTLock system. A secure pass is generated, delivered, and revoked — automatically. No manual work. Ever.",
+    sol1_title:  "Encrypted & Secure",
+    sol1_body:   "Every pass is AES-encrypted, signed, and bound to your guest's exact check-in/checkout window.",
+    sol2_title:  "Fully Automated",
+    sol2_body:   "Pass activates at check-in time, deactivates at checkout. Zero intervention required.",
+    sol3_title:  "No App Required",
+    sol3_body:   "Lives in Apple Wallet or Google Wallet — the apps guests already have. Tap, enter. Done.",
+
+    // How it works
+    how_title: "Set it up in minutes.",
+    how_sub:   "Three simple steps — then it runs by itself, forever.",
+    step1_title: "Connect your account",
+    step1_body:  "Install the add-on from Hostfully Marketplace and link your TTLock property in under 5 minutes.",
+    step2_title: "Guest booking confirmed",
+    step2_body:  "The moment a reservation is made, a unique encrypted pass is generated and sent to your guest automatically.",
+    step3_title: "Guest taps to enter",
+    step3_body:  "At check-in time, the pass activates. Tap the phone on the lock. At checkout, it deactivates. Automatically.",
+
+    // Features grid
+    features_title: "Everything you need. Nothing you don't.",
+    feat1_t: "Auto Activate / Deactivate",
+    feat1_b: "Passes go live at check-in and expire at checkout. No manual step required.",
+    feat2_t: "Secure & Encrypted",
+    feat2_b: "AES-256 encryption. Time-bound tokens. Cannot be shared or reused after expiry.",
+    feat3_t: "No App Download",
+    feat3_b: "Works natively in Apple Wallet & Google Wallet. Zero friction for guests.",
+    feat4_t: "Hostfully Native",
+    feat4_b: "One-click install from the Marketplace. Syncs with your existing reservations automatically.",
+    feat5_t: "Reusable Infrastructure",
+    feat5_b: "Set up once. Works for every future booking at that property. Permanently.",
+    feat6_t: "Multi-Property Ready",
+    feat6_b: "Manage unlimited properties from one Hostfully account. Scales with your portfolio.",
+
+    // Compatibility
+    compat_title: "Works with your setup.",
+    compat_sub:   "Built for TTLock-powered properties, with full wallet compatibility.",
+    compat_locks_title: "TTLock Lock Types",
+    lock1: "TTLock WiFi Smart Locks",
+    lock2: "TTLock RFID / NFC Locks",
+    lock3: "TTLock Gateway-connected locks",
+    lock4: "All TTLock G2 & G3 models",
+    compat_wallets_title: "Digital Wallet Support",
+    wallet1: "Apple Wallet (iOS 9+)",
+    wallet2: "Google Wallet (Android 5+)",
+    wallet3: "NFC tap-to-enter",
+    wallet4: "QR code fallback option",
+
+    // Security
+    security_title: "Security you can trust.",
+    security_sub:   "Your property and guests are protected by enterprise-grade security — on every pass.",
+    sec1_t: "End-to-End Encryption",
+    sec1_b: "AES-256 encrypted tokens, signed per reservation.",
+    sec2_t: "Time-Bound Access",
+    sec2_b: "Passes expire exactly at checkout. No manual revocation needed.",
+    sec3_t: "Tamper-Proof",
+    sec3_b: "Cryptographically signed. Cannot be forged, duplicated, or extended.",
+    sec4_t: "Auto Revocation",
+    sec4_b: "Checkout triggers immediate deactivation. Fully automated.",
+
+    // CTA section
+    cta_section_title: "Set it once.\nRuns forever.",
+    cta_section_sub:   "Join forward-thinking Hostfully hosts who have eliminated manual check-in forever. Early access spots are limited.",
+
+    // Stats
+    stat1:    "Automated",
+    stat2_num:"Zero",
+    stat2:    "App downloads needed",
+    stat3:    "Manual steps",
+
+    // Footer
+    footer_copy:    "© 2025 Smart NFC Guest Pass. A Hostfully Marketplace Add-On.",
+    footer_privacy: "Privacy",
+    footer_terms:   "Terms",
+    footer_contact: "Contact",
+  },
+
+  /* ——————————————————————————————————————————
+     SPANISH
+  —————————————————————————————————————————— */
+  es: {
+    meta_title: "Smart NFC Guest Pass – Complemento de Hostfully",
+    meta_desc:  "Genera automáticamente pases digitales NFC seguros para huéspedes de alquiler vacacional. Compatible con TTLock. Sin aplicación requerida.",
+    badge_early:       "Acceso anticipado para usuarios de Hostfully",
+    hero_headline:     "Tus huéspedes entran tocando.\nTú no haces nada.",
+    hero_sub:          "Smart NFC Guest Pass entrega automáticamente una llave digital segura y de tiempo limitado a cada huésped — directamente en Apple Wallet o Google Wallet. Configúralo una vez. Funciona para siempre.",
+    cta_primary:       "Obtener acceso anticipado",
+    cta_secondary:     "Ver cómo funciona",
+    cta_micro:         "Sin contratos. Instala directamente desde Hostfully Marketplace.",
+    pass_villa:        "Villa Vista al Mar — Habitación 1",
+    pass_checkin:      "Entrada",
+    pass_checkout:     "Salida",
+    problem_title:     "La forma antigua ya no funciona.",
+    problem_sub:       "Códigos PIN, descargas de apps y entregas manuales te cuestan tiempo y frustran a tus huéspedes.",
+    prob1_title:       "Códigos PIN olvidados",
+    prob1_body:        "Los huéspedes olvidan los códigos, quedan bloqueados a medianoche e inundan tu bandeja de entrada.",
+    prob2_title:       "Caos en el check-in manual",
+    prob2_body:        "Restablecimiento de códigos, llamadas a huéspedes, confirmaciones... horas que no tienes.",
+    prob3_title:       "Fricción por descarga de apps",
+    prob3_body:        "Nadie quiere descargar una app para una estancia de 3 noches. Los huéspedes abandonan.",
+    solution_badge:    "La forma inteligente",
+    solution_title:    "Un complemento. Totalmente automatizado. Los huéspedes lo adoran.",
+    solution_sub:      "Smart NFC Guest Pass se conecta a Hostfully y tu sistema TTLock. El pase se genera, entrega y revoca automáticamente. Sin trabajo manual.",
+    sol1_title:        "Cifrado y seguro",
+    sol1_body:         "Cada pase está cifrado con AES y vinculado a la ventana exacta de estancia del huésped.",
+    sol2_title:        "Completamente automático",
+    sol2_body:         "El pase se activa en el check-in y se desactiva en el check-out. Cero intervención.",
+    sol3_title:        "Sin app requerida",
+    sol3_body:         "Vive en Apple Wallet o Google Wallet. Toca, entra. Listo.",
+    how_title:         "Configúralo en minutos.",
+    how_sub:           "Tres pasos simples — después funciona solo, para siempre.",
+    step1_title:       "Conecta tu cuenta",
+    step1_body:        "Instala el complemento desde Hostfully Marketplace y vincula tu propiedad TTLock en menos de 5 minutos.",
+    step2_title:       "Reserva confirmada",
+    step2_body:        "En cuanto se hace una reserva, se genera un pase único cifrado y se envía al huésped automáticamente.",
+    step3_title:       "El huésped toca para entrar",
+    step3_body:        "Al momento del check-in el pase se activa. Acerca el teléfono a la cerradura. Al salir, se desactiva.",
+    features_title:    "Todo lo que necesitas. Nada más.",
+    feat1_t: "Activación / Desactivación automática",
+    feat1_b: "Los pases se activan en el check-in y expiran en el check-out.",
+    feat2_t: "Seguro y cifrado",
+    feat2_b: "Cifrado AES-256. Tokens de tiempo limitado. No se pueden compartir ni reutilizar.",
+    feat3_t: "Sin descarga de app",
+    feat3_b: "Funciona de forma nativa en Apple Wallet y Google Wallet. Cero fricción.",
+    feat4_t: "Nativo de Hostfully",
+    feat4_b: "Instalación con un clic desde el Marketplace. Sincroniza con tus reservas automáticamente.",
+    feat5_t: "Infraestructura reutilizable",
+    feat5_b: "Configúralo una vez. Funciona para cada reserva futura en esa propiedad.",
+    feat6_t: "Listo para múltiples propiedades",
+    feat6_b: "Gestiona propiedades ilimitadas desde una cuenta Hostfully.",
+    compat_title:       "Funciona con tu configuración.",
+    compat_sub:         "Diseñado para propiedades con TTLock, con compatibilidad total de billetera digital.",
+    compat_locks_title: "Tipos de cerradura TTLock",
+    lock1: "Cerraduras inteligentes WiFi TTLock",
+    lock2: "Cerraduras RFID / NFC TTLock",
+    lock3: "Cerraduras conectadas vía Gateway TTLock",
+    lock4: "Todos los modelos TTLock G2 y G3",
+    compat_wallets_title: "Soporte de billetera digital",
+    wallet1: "Apple Wallet (iOS 9+)",
+    wallet2: "Google Wallet (Android 5+)",
+    wallet3: "Entrada NFC por toque",
+    wallet4: "Opción de código QR de respaldo",
+    security_title:    "Seguridad en la que puedes confiar.",
+    security_sub:      "Tu propiedad y tus huéspedes están protegidos con seguridad de nivel empresarial en cada pase.",
+    sec1_t: "Cifrado de extremo a extremo",
+    sec1_b: "Tokens cifrados AES-256, firmados por reserva.",
+    sec2_t: "Acceso de tiempo limitado",
+    sec2_b: "Los pases expiran exactamente en el check-out.",
+    sec3_t: "A prueba de manipulaciones",
+    sec3_b: "Firmados criptográficamente. No se pueden falsificar ni duplicar.",
+    sec4_t: "Revocación automática",
+    sec4_b: "El check-out activa la desactivación inmediata.",
+    cta_section_title: "Configúralo una vez.\nFunciona para siempre.",
+    cta_section_sub:   "Únete a los anfitriones de Hostfully que han eliminado el check-in manual para siempre.",
+    stat1:    "Automatizado",
+    stat2_num:"Cero",
+    stat2:    "Descargas de apps necesarias",
+    stat3:    "Pasos manuales",
+    footer_copy:    "© 2025 Smart NFC Guest Pass. Un complemento de Hostfully Marketplace.",
+    footer_privacy: "Privacidad",
+    footer_terms:   "Términos",
+    footer_contact: "Contacto",
+  },
+
+  /* ——————————————————————————————————————————
+     FRENCH
+  —————————————————————————————————————————— */
+  fr: {
+    meta_title: "Smart NFC Guest Pass – Extension Hostfully",
+    meta_desc:  "Générez automatiquement des passes NFC sécurisés pour vos locataires. Compatible TTLock. Aucune application requise.",
+    badge_early:       "Accès anticipé pour les utilisateurs Hostfully",
+    hero_headline:     "Vos hôtes passent.\nVous ne faites rien.",
+    hero_sub:          "Smart NFC Guest Pass génère et envoie automatiquement une clé numérique sécurisée à chaque hôte — directement dans Apple Wallet ou Google Wallet. Configurez une fois. Fonctionne indéfiniment.",
+    cta_primary:       "Obtenir un accès anticipé",
+    cta_secondary:     "Voir comment ça marche",
+    cta_micro:         "Sans engagement. Installation directe via Hostfully Marketplace.",
+    pass_villa:        "Villa Vue Mer — Chambre 1",
+    pass_checkin:      "Arrivée",
+    pass_checkout:     "Départ",
+    problem_title:     "L'ancienne méthode ne fonctionne plus.",
+    problem_sub:       "Codes PIN, téléchargements d'applications et remises de clés manuelles vous coûtent du temps et frustrent vos hôtes.",
+    prob1_title:       "Codes PIN oubliés",
+    prob1_body:        "Les hôtes oublient les codes, se retrouvent bloqués à minuit et inondent votre boîte mail.",
+    prob2_title:       "Chaos du check-in manuel",
+    prob2_body:        "Réinitialisation de codes, appels d'hôtes, confirmations — des heures perdues chaque semaine.",
+    prob3_title:       "Friction liée aux applications",
+    prob3_body:        "Personne ne veut télécharger une app pour un séjour de 3 nuits. Les hôtes abandonnent.",
+    solution_badge:    "La méthode intelligente",
+    solution_title:    "Un module. Entièrement automatisé. Les hôtes adorent.",
+    solution_sub:      "Smart NFC Guest Pass se connecte à Hostfully et à votre système TTLock. Le pass est généré, livré et révoqué automatiquement. Sans travail manuel.",
+    sol1_title:        "Chiffré et sécurisé",
+    sol1_body:         "Chaque pass est chiffré en AES et lié à la fenêtre exacte de séjour de l'hôte.",
+    sol2_title:        "Entièrement automatique",
+    sol2_body:         "Le pass s'active à l'arrivée et se désactive au départ. Zéro intervention.",
+    sol3_title:        "Sans application",
+    sol3_body:         "Intégré dans Apple Wallet ou Google Wallet — les apps que vos hôtes ont déjà. Tap, entrée. C'est tout.",
+    how_title:         "Configuré en quelques minutes.",
+    how_sub:           "Trois étapes simples — ensuite ça tourne seul, pour toujours.",
+    step1_title:       "Connectez votre compte",
+    step1_body:        "Installez l'extension depuis Hostfully Marketplace et liez votre propriété TTLock en moins de 5 minutes.",
+    step2_title:       "Réservation confirmée",
+    step2_body:        "Dès qu'une réservation est faite, un pass unique chiffré est généré et envoyé à l'hôte automatiquement.",
+    step3_title:       "L'hôte passe sa carte",
+    step3_body:        "À l'heure d'arrivée, le pass s'active. Approche le téléphone de la serrure. Au départ, il se désactive.",
+    features_title:    "Tout ce qu'il vous faut. Rien de superflu.",
+    feat1_t: "Activation / Désactivation auto",
+    feat1_b: "Les passes s'activent à l'arrivée et expirent au départ.",
+    feat2_t: "Sécurisé et chiffré",
+    feat2_b: "Chiffrement AES-256. Jetons à durée limitée. Non partageables.",
+    feat3_t: "Sans téléchargement d'app",
+    feat3_b: "Fonctionne nativement dans Apple Wallet et Google Wallet.",
+    feat4_t: "Natif Hostfully",
+    feat4_b: "Installation en un clic depuis le Marketplace. Synchronisation automatique.",
+    feat5_t: "Infrastructure réutilisable",
+    feat5_b: "Configurez une fois. Fonctionne pour chaque future réservation de la propriété.",
+    feat6_t: "Multi-propriétés",
+    feat6_b: "Gérez un nombre illimité de propriétés depuis un seul compte Hostfully.",
+    compat_title:       "Compatible avec votre installation.",
+    compat_sub:         "Conçu pour les propriétés équipées TTLock, avec compatibilité portefeuille numérique totale.",
+    compat_locks_title: "Types de serrures TTLock",
+    lock1: "Serrures WiFi intelligentes TTLock",
+    lock2: "Serrures RFID / NFC TTLock",
+    lock3: "Serrures connectées via Gateway TTLock",
+    lock4: "Tous les modèles TTLock G2 & G3",
+    compat_wallets_title: "Compatibilité portefeuille numérique",
+    wallet1: "Apple Wallet (iOS 9+)",
+    wallet2: "Google Wallet (Android 5+)",
+    wallet3: "Entrée NFC par tap",
+    wallet4: "Option QR code de secours",
+    security_title:    "Une sécurité en qui vous pouvez avoir confiance.",
+    security_sub:      "Votre propriété et vos hôtes sont protégés par une sécurité de niveau entreprise sur chaque pass.",
+    sec1_t: "Chiffrement de bout en bout",
+    sec1_b: "Jetons AES-256, signés par réservation.",
+    sec2_t: "Accès à durée limitée",
+    sec2_b: "Les passes expirent exactement au départ.",
+    sec3_t: "Inviolable",
+    sec3_b: "Signé cryptographiquement. Impossible à falsifier.",
+    sec4_t: "Révocation automatique",
+    sec4_b: "Le départ déclenche une désactivation immédiate.",
+    cta_section_title: "Configurez une fois.\nFonctionne indéfiniment.",
+    cta_section_sub:   "Rejoignez les hôtes Hostfully avant-gardistes qui ont définitivement éliminé le check-in manuel.",
+    stat1:    "Automatisé",
+    stat2_num:"Zéro",
+    stat2:    "Application à télécharger",
+    stat3:    "Étapes manuelles",
+    footer_copy:    "© 2025 Smart NFC Guest Pass. Une extension Hostfully Marketplace.",
+    footer_privacy: "Confidentialité",
+    footer_terms:   "CGU",
+    footer_contact: "Contact",
+  },
+
+  /* ——————————————————————————————————————————
+     GERMAN
+  —————————————————————————————————————————— */
+  de: {
+    meta_title: "Smart NFC Guest Pass – Hostfully Marketplace Add-On",
+    meta_desc:  "Automatisch sichere NFC-Wallet-Pässe für Ferienwohnungsgäste generieren. Kompatibel mit TTLock. Keine App erforderlich.",
+    badge_early:       "Frühzugang für Hostfully-Nutzer",
+    hero_headline:     "Ihre Gäste tippen an.\nSie tun nichts.",
+    hero_sub:          "Smart NFC Guest Pass liefert automatisch einen sicheren, zeitgebundenen digitalen Schlüssel an jeden Gast — direkt in Apple Wallet oder Google Wallet. Einmal einrichten. Läuft für immer.",
+    cta_primary:       "Frühzugang erhalten",
+    cta_secondary:     "So funktioniert es",
+    cta_micro:         "Keine Verträge. Direkt über den Hostfully Marketplace installieren.",
+    pass_villa:        "Meerblick-Villa — Zimmer 1",
+    pass_checkin:      "Check-in",
+    pass_checkout:     "Check-out",
+    problem_title:     "Der alte Weg funktioniert nicht mehr.",
+    problem_sub:       "PIN-Codes, App-Downloads und manuelle Übergaben kosten Zeit und frustrieren Ihre Gäste.",
+    prob1_title:       "Vergessene PIN-Codes",
+    prob1_body:        "Gäste vergessen Codes, sperren sich um Mitternacht aus und fluten Ihren Posteingang.",
+    prob2_title:       "Chaos beim manuellen Check-in",
+    prob2_body:        "Code-Resets, Anrufe, Bestätigungen nachjagen — Stunden, die Sie nicht haben.",
+    prob3_title:       "App-Download-Hürde",
+    prob3_body:        "Niemand möchte für 3 Nächte eine App herunterladen. Gäste brechen ab.",
+    solution_badge:    "Der smarte Weg",
+    solution_title:    "Ein Add-On. Vollständig automatisiert. Gäste lieben es.",
+    solution_sub:      "Smart NFC Guest Pass verbindet sich mit Hostfully und Ihrem TTLock-System. Ein sicherer Pass wird automatisch generiert, geliefert und widerrufen. Kein manueller Aufwand.",
+    sol1_title:        "Verschlüsselt & sicher",
+    sol1_body:         "Jeder Pass ist AES-verschlüsselt und an das genaue Check-in/Check-out-Fenster des Gastes gebunden.",
+    sol2_title:        "Vollständig automatisiert",
+    sol2_body:         "Pass aktiviert sich beim Check-in, deaktiviert sich beim Check-out. Null Eingriff nötig.",
+    sol3_title:        "Keine App erforderlich",
+    sol3_body:         "Lebt in Apple Wallet oder Google Wallet — Apps, die Gäste bereits haben. Antippen, eintreten.",
+    how_title:         "In Minuten eingerichtet.",
+    how_sub:           "Drei einfache Schritte — dann läuft es von selbst, für immer.",
+    step1_title:       "Konto verbinden",
+    step1_body:        "Add-On aus dem Hostfully Marketplace installieren und TTLock-Unterkunft in unter 5 Minuten verknüpfen.",
+    step2_title:       "Buchung bestätigt",
+    step2_body:        "Sobald eine Buchung eingeht, wird automatisch ein einzigartiger verschlüsselter Pass generiert und an den Gast gesendet.",
+    step3_title:       "Gast tippt an und betritt",
+    step3_body:        "Zum Check-in-Zeitpunkt aktiviert sich der Pass. Telefon ans Schloss halten. Beim Check-out deaktiviert er sich.",
+    features_title:    "Alles, was Sie brauchen. Nichts, was Sie nicht brauchen.",
+    feat1_t: "Auto-Aktivierung / Deaktivierung",
+    feat1_b: "Pässe werden beim Check-in aktiv und laufen beim Check-out ab.",
+    feat2_t: "Sicher & verschlüsselt",
+    feat2_b: "AES-256-Verschlüsselung. Zeitgebundene Token. Nicht teilbar nach Ablauf.",
+    feat3_t: "Kein App-Download",
+    feat3_b: "Funktioniert nativ in Apple Wallet & Google Wallet. Keine Reibung für Gäste.",
+    feat4_t: "Hostfully-nativ",
+    feat4_b: "Ein-Klick-Installation aus dem Marketplace. Automatische Synchronisierung.",
+    feat5_t: "Wiederverwendbare Infrastruktur",
+    feat5_b: "Einmal einrichten. Funktioniert für jede zukünftige Buchung dauerhaft.",
+    feat6_t: "Für mehrere Objekte geeignet",
+    feat6_b: "Unbegrenzte Objekte über ein Hostfully-Konto verwalten.",
+    compat_title:       "Kompatibel mit Ihrer Ausstattung.",
+    compat_sub:         "Gebaut für TTLock-Objekte, mit vollständiger Wallet-Kompatibilität.",
+    compat_locks_title: "TTLock Schlosstypen",
+    lock1: "TTLock WiFi Smart Locks",
+    lock2: "TTLock RFID / NFC Schlösser",
+    lock3: "TTLock Gateway-verbundene Schlösser",
+    lock4: "Alle TTLock G2 & G3 Modelle",
+    compat_wallets_title: "Digitale Wallet-Unterstützung",
+    wallet1: "Apple Wallet (iOS 9+)",
+    wallet2: "Google Wallet (Android 5+)",
+    wallet3: "NFC-Antippen zum Eintreten",
+    wallet4: "QR-Code-Fallback-Option",
+    security_title:    "Sicherheit, der Sie vertrauen können.",
+    security_sub:      "Ihr Objekt und Ihre Gäste werden durch Sicherheit auf Unternehmensebene auf jedem Pass geschützt.",
+    sec1_t: "Ende-zu-Ende-Verschlüsselung",
+    sec1_b: "AES-256-verschlüsselte Token, pro Buchung signiert.",
+    sec2_t: "Zeitgebundener Zugang",
+    sec2_b: "Pässe laufen genau beim Check-out ab.",
+    sec3_t: "Manipulationssicher",
+    sec3_b: "Kryptografisch signiert. Nicht fälschbar oder duplizierbar.",
+    sec4_t: "Automatischer Widerruf",
+    sec4_b: "Check-out löst sofortige Deaktivierung aus.",
+    cta_section_title: "Einmal einrichten.\nLäuft für immer.",
+    cta_section_sub:   "Schließen Sie sich zukunftsorientierten Hostfully-Gastgebern an, die den manuellen Check-in für immer eliminiert haben.",
+    stat1:    "Automatisiert",
+    stat2_num:"Null",
+    stat2:    "App-Downloads nötig",
+    stat3:    "Manuelle Schritte",
+    footer_copy:    "© 2025 Smart NFC Guest Pass. Ein Hostfully Marketplace Add-On.",
+    footer_privacy: "Datenschutz",
+    footer_terms:   "AGB",
+    footer_contact: "Kontakt",
+  },
+
+  /* ——————————————————————————————————————————
+     DUTCH
+  —————————————————————————————————————————— */
+  nl: {
+    meta_title: "Smart NFC Guest Pass – Hostfully Marketplace Add-On",
+    meta_desc:  "Genereer automatisch veilige NFC-walletpassen voor gasten van vakantiewoningen. Werkt met TTLock. Geen app vereist.",
+    badge_early:       "Vroege toegang voor Hostfully-gebruikers",
+    hero_headline:     "Gasten tikken aan.\nJij doet niets.",
+    hero_sub:          "Smart NFC Guest Pass levert automatisch een veilige, tijdgebonden digitale sleutel aan elke gast — direct in Apple Wallet of Google Wallet. Eén keer instellen. Werkt voor altijd.",
+    cta_primary:       "Vroege toegang aanvragen",
+    cta_secondary:     "Bekijk hoe het werkt",
+    cta_micro:         "Geen contracten. Direct installeren via de Hostfully Marketplace.",
+    pass_villa:        "Zeezicht Villa — Kamer 1",
+    pass_checkin:      "Inchecken",
+    pass_checkout:     "Uitchecken",
+    problem_title:     "De oude manier werkt niet meer.",
+    problem_sub:       "PIN-codes, app-downloads en handmatige overdrachten kosten tijd en frustreren je gasten.",
+    prob1_title:       "Vergeten PIN-codes",
+    prob1_body:        "Gasten vergeten codes, staan om middernacht buiten en overspoelen je inbox.",
+    prob2_title:       "Chaos bij handmatige check-in",
+    prob2_body:        "Code-resets, gasten bellen, bevestigingen najagen — uren die je niet hebt.",
+    prob3_title:       "Wrijving door app-downloads",
+    prob3_body:        "Niemand wil een app downloaden voor 3 nachten. Gasten haken af.",
+    solution_badge:    "De slimme manier",
+    solution_title:    "Één add-on. Volledig geautomatiseerd. Gasten zijn er dol op.",
+    solution_sub:      "Smart NFC Guest Pass verbindt met Hostfully en je TTLock-systeem. Een veilige pas wordt automatisch gegenereerd, bezorgd en ingetrokken. Geen handmatig werk.",
+    sol1_title:        "Versleuteld & veilig",
+    sol1_body:         "Elke pas is AES-versleuteld en gekoppeld aan het exacte verblijfvenster van de gast.",
+    sol2_title:        "Volledig geautomatiseerd",
+    sol2_body:         "Pas activeert bij inchecken, deactiveert bij uitchecken. Nul interventie.",
+    sol3_title:        "Geen app vereist",
+    sol3_body:         "Leeft in Apple Wallet of Google Wallet — apps die gasten al hebben. Tikken, naar binnen.",
+    how_title:         "In minuten ingesteld.",
+    how_sub:           "Drie eenvoudige stappen — daarna werkt het zichzelf, voor altijd.",
+    step1_title:       "Verbind je account",
+    step1_body:        "Installeer de add-on via de Hostfully Marketplace en koppel je TTLock-woning in minder dan 5 minuten.",
+    step2_title:       "Boeking bevestigd",
+    step2_body:        "Zodra een reservering wordt gemaakt, wordt automatisch een unieke versleutelde pas gegenereerd en naar de gast gestuurd.",
+    step3_title:       "Gast tikt aan en gaat naar binnen",
+    step3_body:        "Op het incheckmoment activeert de pas. Telefoon bij het slot houden. Bij uitchecken deactiveert automatisch.",
+    features_title:    "Alles wat je nodig hebt. Niets wat je niet nodig hebt.",
+    feat1_t: "Auto activeren / deactiveren",
+    feat1_b: "Passen worden actief bij inchecken en verlopen bij uitchecken.",
+    feat2_t: "Veilig & versleuteld",
+    feat2_b: "AES-256-versleuteling. Tijdgebonden tokens. Niet deelbaar na verloopdatum.",
+    feat3_t: "Geen app-download",
+    feat3_b: "Werkt native in Apple Wallet & Google Wallet. Nul wrijving voor gasten.",
+    feat4_t: "Hostfully-native",
+    feat4_b: "Één-klik installatie vanuit de Marketplace. Automatische synchronisatie.",
+    feat5_t: "Herbruikbare infrastructuur",
+    feat5_b: "Eén keer instellen. Werkt voor elke toekomstige boeking van die woning.",
+    feat6_t: "Klaar voor meerdere woningen",
+    feat6_b: "Beheer onbeperkt woningen vanuit één Hostfully-account.",
+    compat_title:       "Werkt met jouw setup.",
+    compat_sub:         "Gebouwd voor TTLock-woningen, met volledige walletcompatibiliteit.",
+    compat_locks_title: "TTLock slottypes",
+    lock1: "TTLock WiFi Smart Locks",
+    lock2: "TTLock RFID / NFC Sloten",
+    lock3: "TTLock Gateway-verbonden sloten",
+    lock4: "Alle TTLock G2 & G3 modellen",
+    compat_wallets_title: "Digitale wallet-ondersteuning",
+    wallet1: "Apple Wallet (iOS 9+)",
+    wallet2: "Google Wallet (Android 5+)",
+    wallet3: "NFC tikken om in te gaan",
+    wallet4: "QR-code-fallbackoptie",
+    security_title:    "Beveiliging die je kunt vertrouwen.",
+    security_sub:      "Jouw woning en gasten worden beschermd door enterprise-niveau beveiliging op elke pas.",
+    sec1_t: "End-to-end versleuteling",
+    sec1_b: "AES-256 versleutelde tokens, ondertekend per reservering.",
+    sec2_t: "Tijdgebonden toegang",
+    sec2_b: "Passen verlopen precies bij uitchecken.",
+    sec3_t: "Fraudebestendig",
+    sec3_b: "Cryptografisch ondertekend. Niet te vervalsen of dupliceren.",
+    sec4_t: "Automatische intrekking",
+    sec4_b: "Uitchecken activeert directe deactivering.",
+    cta_section_title: "Eén keer instellen.\nWerkt voor altijd.",
+    cta_section_sub:   "Sluit je aan bij vooruitstrevende Hostfully-hosts die de handmatige check-in voor altijd hebben geëlimineerd.",
+    stat1:    "Geautomatiseerd",
+    stat2_num:"Nul",
+    stat2:    "App-downloads nodig",
+    stat3:    "Handmatige stappen",
+    footer_copy:    "© 2025 Smart NFC Guest Pass. Een Hostfully Marketplace Add-On.",
+    footer_privacy: "Privacy",
+    footer_terms:   "Voorwaarden",
+    footer_contact: "Contact",
+  },
+};
+
+/* ============================================================
+   LANGUAGE ENGINE
+   - Reads ?lang= URL param or localStorage
+   - Falls back to browser language, then 'en'
+   ============================================================ */
+const SUPPORTED = Object.keys(TRANSLATIONS);
+
+function detectLang() {
+  // 1. URL param
+  const p = new URLSearchParams(window.location.search).get('lang');
+  if (p && SUPPORTED.includes(p)) return p;
+  // 2. localStorage
+  const s = localStorage.getItem('nfc_lang');
+  if (s && SUPPORTED.includes(s)) return s;
+  // 3. Browser language
+  const b = (navigator.language || '').slice(0,2).toLowerCase();
+  if (SUPPORTED.includes(b)) return b;
+  return 'en';
+}
+
+function applyTranslations(lang) {
+  const t = TRANSLATIONS[lang];
+  if (!t) return;
+
+  // Update all [data-t] elements
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const key = el.getAttribute('data-t');
+    if (t[key] !== undefined) {
+      // Support \n line breaks in headlines
+      el.innerHTML = t[key].replace(/\n/g, '<br>');
+    }
+  });
+
+  // Update <html lang> attribute
+  document.documentElement.setAttribute('lang', lang);
+
+  // Update <title> and meta description dynamically
+  if (t.meta_title) document.title = t.meta_title;
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc && t.meta_desc) metaDesc.setAttribute('content', t.meta_desc);
+
+  // Update lang switcher active state
+  document.querySelectorAll('[data-lang]').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+}
+
+function setLang(lang) {
+  if (!SUPPORTED.includes(lang)) return;
+
+  // Save preference
+  localStorage.setItem('nfc_lang', lang);
+
+  // Update URL param without reload
+  const url = new URL(window.location.href);
+  url.searchParams.set('lang', lang);
+  history.replaceState({}, '', url.toString());
+
+  // Apply
+  applyTranslations(lang);
+}
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+function initReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  const lang = detectLang();
+  applyTranslations(lang);
+
+  // Update active button on load
+  document.querySelectorAll('[data-lang]').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+
+  initReveal();
+});
+</script>
+
+</body>
+</html>
