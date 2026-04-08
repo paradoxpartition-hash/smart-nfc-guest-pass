@@ -371,6 +371,20 @@
 
 
 <!-- ============================================================
+     COMPATIBILITY NOTICE BANNER
+     ============================================================ -->
+<section class="py-5 px-6" style="background:#FFF7ED;border-top:1px solid #FED7AA;border-bottom:1px solid #FED7AA;">
+  <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-3 text-center sm:text-left">
+    <div class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center" style="background:#FEF3C7;">
+      <svg class="w-5 h-5" fill="none" stroke="#D97706" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+    </div>
+    <p class="text-sm font-body" style="color:#92400E;"><span class="font-bold" data-t="notice_label"></span><span data-t="notice_body"></span></p>
+    <a href="#compatibility" class="flex-shrink-0 text-xs font-display font-bold underline" style="color:#D97706;" data-t="notice_link"></a>
+  </div>
+</section>
+
+
+<!-- ============================================================
      PROBLEM SECTION
      ============================================================ -->
 <section class="py-20 px-6">
@@ -501,7 +515,7 @@
 <!-- ============================================================
      COMPATIBILITY SECTION
      ============================================================ -->
-<section class="py-24 px-6">
+<section id="compatibility" class="py-24 px-6">
   <div class="max-w-5xl mx-auto">
     <div class="reveal text-center mb-14">
       <h2 class="font-display text-4xl sm:text-5xl font-extrabold text-navy mb-4" data-t="compat_title"></h2>
@@ -656,6 +670,11 @@ const TRANSLATIONS = {
     meta_title: "Smart NFC Guest Pass – Hostfully Add-On",
     meta_desc:  "Automatically generate secure NFC wallet passes for vacation rental guests. Works with TTLock. No app required.",
 
+    // Compatibility notice
+    notice_label: "⚠️ Lock compatibility required: ",
+    notice_body:  "This add-on works exclusively with TTLock-powered smart locks (WiFi, RFID & NFC models). Other lock brands are not currently supported.",
+    notice_link:  "See compatible locks ↓",
+
     // Nav / badge
     badge_early: "Early Access for Hostfully Users",
 
@@ -766,6 +785,9 @@ const TRANSLATIONS = {
   es: {
     meta_title: "Smart NFC Guest Pass – Complemento de Hostfully",
     meta_desc:  "Genera automáticamente pases digitales NFC seguros para huéspedes de alquiler vacacional. Compatible con TTLock. Sin aplicación requerida.",
+    notice_label: "⚠️ Compatibilidad de cerradura requerida: ",
+    notice_body:  "Este complemento funciona exclusivamente con cerraduras inteligentes TTLock (WiFi, RFID y NFC). Otras marcas no son compatibles actualmente.",
+    notice_link:  "Ver cerraduras compatibles ↓",
     badge_early:       "Acceso anticipado para usuarios de Hostfully",
     hero_headline:     "Tus huéspedes entran tocando.\nTú no haces nada.",
     hero_sub:          "Smart NFC Guest Pass entrega automáticamente una llave digital segura y de tiempo limitado a cada huésped — directamente en Apple Wallet o Google Wallet. Configúralo una vez. Funciona para siempre.",
@@ -853,6 +875,9 @@ const TRANSLATIONS = {
   fr: {
     meta_title: "Smart NFC Guest Pass – Extension Hostfully",
     meta_desc:  "Générez automatiquement des passes NFC sécurisés pour vos locataires. Compatible TTLock. Aucune application requise.",
+    notice_label: "⚠️ Compatibilité de serrure requise : ",
+    notice_body:  "Ce module fonctionne exclusivement avec les serrures connectées TTLock (WiFi, RFID et NFC). Les autres marques ne sont pas prises en charge.",
+    notice_link:  "Voir les serrures compatibles ↓",
     badge_early:       "Accès anticipé pour les utilisateurs Hostfully",
     hero_headline:     "Vos hôtes passent.\nVous ne faites rien.",
     hero_sub:          "Smart NFC Guest Pass génère et envoie automatiquement une clé numérique sécurisée à chaque hôte — directement dans Apple Wallet ou Google Wallet. Configurez une fois. Fonctionne indéfiniment.",
@@ -940,6 +965,9 @@ const TRANSLATIONS = {
   de: {
     meta_title: "Smart NFC Guest Pass – Hostfully Marketplace Add-On",
     meta_desc:  "Automatisch sichere NFC-Wallet-Pässe für Ferienwohnungsgäste generieren. Kompatibel mit TTLock. Keine App erforderlich.",
+    notice_label: "⚠️ Schloss-Kompatibilität erforderlich: ",
+    notice_body:  "Dieses Add-On funktioniert ausschließlich mit TTLock-Smartlocks (WiFi, RFID und NFC). Andere Schlossmarken werden derzeit nicht unterstützt.",
+    notice_link:  "Kompatible Schlösser ansehen ↓",
     badge_early:       "Frühzugang für Hostfully-Nutzer",
     hero_headline:     "Ihre Gäste tippen an.\nSie tun nichts.",
     hero_sub:          "Smart NFC Guest Pass liefert automatisch einen sicheren, zeitgebundenen digitalen Schlüssel an jeden Gast — direkt in Apple Wallet oder Google Wallet. Einmal einrichten. Läuft für immer.",
@@ -1027,6 +1055,9 @@ const TRANSLATIONS = {
   nl: {
     meta_title: "Smart NFC Guest Pass – Hostfully Marketplace Add-On",
     meta_desc:  "Genereer automatisch veilige NFC-walletpassen voor gasten van vakantiewoningen. Werkt met TTLock. Geen app vereist.",
+    notice_label: "⚠️ Slotcompatibiliteit vereist: ",
+    notice_body:  "Deze add-on werkt uitsluitend met TTLock slimme sloten (WiFi, RFID en NFC). Andere slotmerken worden momenteel niet ondersteund.",
+    notice_link:  "Bekijk compatibele sloten ↓",
     badge_early:       "Vroege toegang voor Hostfully-gebruikers",
     hero_headline:     "Gasten tikken aan.\nJij doet niets.",
     hero_sub:          "Smart NFC Guest Pass levert automatisch een veilige, tijdgebonden digitale sleutel aan elke gast — direct in Apple Wallet of Google Wallet. Eén keer instellen. Werkt voor altijd.",
