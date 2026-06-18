@@ -1,4 +1,4 @@
-# Smart NFC Guest Pass — Landing Page
+# HospitalityLock Landing Page
 
 Premium multilingual landing page for the Hostfully Marketplace Add-On.
 

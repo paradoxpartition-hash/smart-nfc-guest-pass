@@ -1,0 +1,11 @@
+{
+  "name": "HospitalityLock",
+  "short_name": "HospitalityLock",
+  "description": "Secure Smart Access For Modern Hospitality.",
+  "start_url": "/hospitalitylock",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#2563EB",
+  "icons": []
+}
