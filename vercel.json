@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/smart-nfc-guest-pass",
+      "destination": "/hospitalitylock",
+      "permanent": true
+    },
+    {
+      "source": "/smart-nfc-guest-pass/",
+      "destination": "/hospitalitylock",
+      "permanent": true
+    }
+  ],
+  "cleanUrls": true
+}
