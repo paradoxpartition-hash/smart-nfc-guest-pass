@@ -202,10 +202,49 @@
       box-shadow: 0 12px 34px rgba(37,99,235,0.14);
       transform: translateY(-1px);
     }
-    .lang-flag {
-      font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
-      font-size: 1.05rem;
-      line-height: 1;
+    .flag-icon {
+      position: relative;
+      width: 1.45rem;
+      height: 1rem;
+      display: inline-block;
+      flex: 0 0 auto;
+      overflow: hidden;
+      border-radius: 0.18rem;
+      border: 1px solid rgba(11,31,59,0.16);
+      box-shadow: 0 1px 2px rgba(11,31,59,0.12);
+    }
+    .flag-us {
+      background:
+        linear-gradient(90deg, #3C3B6E 0 42%, transparent 42%),
+        repeating-linear-gradient(to bottom, #B22234 0 7.69%, #fff 7.69% 15.38%);
+    }
+    .flag-es {
+      background: linear-gradient(to bottom, #AA151B 0 25%, #F1BF00 25% 75%, #AA151B 75%);
+    }
+    .flag-fr {
+      background: linear-gradient(90deg, #0055A4 0 33.33%, #fff 33.33% 66.66%, #EF4135 66.66%);
+    }
+    .flag-de {
+      background: linear-gradient(to bottom, #000 0 33.33%, #DD0000 33.33% 66.66%, #FFCE00 66.66%);
+    }
+    .flag-nl {
+      background: linear-gradient(to bottom, #AE1C28 0 33.33%, #fff 33.33% 66.66%, #21468B 66.66%);
+    }
+    .flag-pt {
+      background: linear-gradient(90deg, #046A38 0 40%, #DA291C 40%);
+    }
+    .flag-sa {
+      background: #006C35;
+    }
+    .flag-sa::after {
+      content: '';
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      bottom: 24%;
+      height: 2px;
+      background: #fff;
+      border-radius: 999px;
     }
     .lang-chevron {
       width: 0.45rem;
@@ -347,7 +386,7 @@
     <!-- Language switcher -->
     <div class="lang-switcher" id="lang-switcher">
       <button class="lang-trigger" id="lang-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="lang-menu">
-        <span class="lang-flag" id="lang-current-flag" aria-hidden="true">🇺🇸</span>
+        <span class="flag-icon flag-us" id="lang-current-flag" aria-hidden="true"></span>
         <span id="lang-current-code">EN</span>
         <span class="lang-chevron" aria-hidden="true"></span>
       </button>
@@ -1408,13 +1447,13 @@ const TRANSLATIONS = {
    ============================================================ */
 const SUPPORTED = Object.keys(TRANSLATIONS);
 const LANGUAGE_LABELS = {
-  en: { flag: "🇺🇸", code: "EN", label: "English" },
-  es: { flag: "🇪🇸", code: "ES", label: "Español" },
-  fr: { flag: "🇫🇷", code: "FR", label: "Français" },
-  de: { flag: "🇩🇪", code: "DE", label: "Deutsch" },
-  nl: { flag: "🇳🇱", code: "NL", label: "Nederlands" },
-  pt: { flag: "🇵🇹", code: "PT", label: "Português" },
-  ar: { flag: "🇸🇦", code: "AR", label: "العربية" },
+  en: { flagClass: "flag-us", code: "EN", label: "English" },
+  es: { flagClass: "flag-es", code: "ES", label: "Espanol" },
+  fr: { flagClass: "flag-fr", code: "FR", label: "Francais" },
+  de: { flagClass: "flag-de", code: "DE", label: "Deutsch" },
+  nl: { flagClass: "flag-nl", code: "NL", label: "Nederlands" },
+  pt: { flagClass: "flag-pt", code: "PT", label: "Portugues" },
+  ar: { flagClass: "flag-sa", code: "AR", label: "Arabic" },
 };
 
 function detectLang() {
@@ -1483,10 +1522,10 @@ function buildLanguageMenu() {
   if (!menu) return;
 
   menu.innerHTML = SUPPORTED.map(lang => {
-    const item = LANGUAGE_LABELS[lang] || { flag: "🌐", code: lang.toUpperCase(), label: lang.toUpperCase() };
+    const item = LANGUAGE_LABELS[lang] || { flagClass: "flag-us", code: lang.toUpperCase(), label: lang.toUpperCase() };
     return `
       <button class="lang-option" type="button" role="menuitem" data-lang="${lang}">
-        <span class="lang-flag" aria-hidden="true">${item.flag}</span>
+        <span class="flag-icon ${item.flagClass}" aria-hidden="true"></span>
         <span>${item.label}</span>
         <span class="lang-option-code">${item.code}</span>
       </button>
@@ -1499,12 +1538,12 @@ function buildLanguageMenu() {
 }
 
 function updateLanguageSwitcher(lang) {
-  const current = LANGUAGE_LABELS[lang] || { flag: "🌐", code: lang.toUpperCase(), label: lang.toUpperCase() };
+  const current = LANGUAGE_LABELS[lang] || { flagClass: "flag-us", code: lang.toUpperCase(), label: lang.toUpperCase() };
   const flag = document.getElementById('lang-current-flag');
   const code = document.getElementById('lang-current-code');
   const trigger = document.getElementById('lang-trigger');
 
-  if (flag) flag.textContent = current.flag;
+  if (flag) flag.className = `flag-icon ${current.flagClass}`;
   if (code) code.textContent = current.code;
   if (trigger) trigger.setAttribute('aria-label', `Current language: ${current.label}`);
 
