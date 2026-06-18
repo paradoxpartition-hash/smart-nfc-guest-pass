@@ -174,28 +174,91 @@
     }
 
     /* --- Language switcher --- */
-    .lang-btn {
-      background: transparent;
-      border: 1.5px solid rgba(255,255,255,0.25);
-      color: inherit;
+    .lang-switcher {
+      position: relative;
+    }
+    .lang-trigger {
+      min-width: 4.7rem;
+      height: 2.35rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(11,31,59,0.12);
+      color: #0B1F3B;
       border-radius: 9999px;
-      padding: 0.25rem 0.75rem;
-      font-size: 0.8rem;
+      padding: 0 0.75rem;
+      font-size: 0.82rem;
       font-family: 'Syne', sans-serif;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.15s, border-color 0.15s, color 0.15s;
-      letter-spacing: 0.05em;
+      box-shadow: 0 8px 28px rgba(11,31,59,0.08);
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
     }
-    .lang-btn.active {
-      background: #2563EB;
-      border-color: #2563EB;
-      color: #fff;
+    .lang-trigger:hover,
+    .lang-trigger[aria-expanded="true"] {
+      border-color: rgba(37,99,235,0.45);
+      box-shadow: 0 12px 34px rgba(37,99,235,0.14);
+      transform: translateY(-1px);
     }
-    .lang-btn:hover:not(.active) {
-      background: rgba(37,99,235,0.12);
-      border-color: #2563EB;
+    .lang-flag {
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+      font-size: 1.05rem;
+      line-height: 1;
+    }
+    .lang-chevron {
+      width: 0.45rem;
+      height: 0.45rem;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg) translateY(-1px);
+      opacity: 0.55;
+    }
+    .lang-menu {
+      position: absolute;
+      top: calc(100% + 0.55rem);
+      right: 0;
+      width: 12rem;
+      padding: 0.35rem;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(11,31,59,0.10);
+      border-radius: 0.75rem;
+      box-shadow: 0 20px 55px rgba(11,31,59,0.16);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .lang-menu[hidden] {
+      display: none;
+    }
+    .lang-option {
+      width: 100%;
+      min-height: 2.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      border: 0;
+      border-radius: 0.55rem;
+      background: transparent;
+      color: #0F172A;
+      padding: 0.45rem 0.55rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+    }
+    .lang-option:hover,
+    .lang-option.active {
+      background: rgba(37,99,235,0.10);
       color: #2563EB;
+    }
+    .lang-option-code {
+      margin-left: auto;
+      color: #64748B;
+      font-size: 0.72rem;
+      font-family: 'Syne', sans-serif;
+      letter-spacing: 0.05em;
     }
 
     /* --- Animated fade-in on scroll --- */
@@ -282,14 +345,13 @@
     </div>
 
     <!-- Language switcher -->
-    <div class="flex items-center gap-1.5" id="lang-switcher" aria-label="Language switcher">
-      <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
-      <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
-      <button class="lang-btn" data-lang="de" onclick="setLang('de')">DE</button>
-      <button class="lang-btn" data-lang="nl" onclick="setLang('nl')">NL</button>
-      <button class="lang-btn" data-lang="pt" onclick="setLang('pt')">PT</button>
-      <button class="lang-btn" data-lang="ar" onclick="setLang('ar')">AR</button>
+    <div class="lang-switcher" id="lang-switcher">
+      <button class="lang-trigger" id="lang-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="lang-menu">
+        <span class="lang-flag" id="lang-current-flag" aria-hidden="true">🇺🇸</span>
+        <span id="lang-current-code">EN</span>
+        <span class="lang-chevron" aria-hidden="true"></span>
+      </button>
+      <div class="lang-menu" id="lang-menu" role="menu" aria-label="Select language" hidden></div>
     </div>
   </div>
 </nav>
@@ -1345,6 +1407,15 @@ const TRANSLATIONS = {
    - Falls back to browser language, then 'en'
    ============================================================ */
 const SUPPORTED = Object.keys(TRANSLATIONS);
+const LANGUAGE_LABELS = {
+  en: { flag: "🇺🇸", code: "EN", label: "English" },
+  es: { flag: "🇪🇸", code: "ES", label: "Español" },
+  fr: { flag: "🇫🇷", code: "FR", label: "Français" },
+  de: { flag: "🇩🇪", code: "DE", label: "Deutsch" },
+  nl: { flag: "🇳🇱", code: "NL", label: "Nederlands" },
+  pt: { flag: "🇵🇹", code: "PT", label: "Português" },
+  ar: { flag: "🇸🇦", code: "AR", label: "العربية" },
+};
 
 function detectLang() {
   // 1. URL param
@@ -1388,10 +1459,7 @@ function applyTranslations(lang) {
   const twitterDesc = document.querySelector('meta[name="twitter:description"]');
   if (twitterDesc && t.meta_desc) twitterDesc.setAttribute('content', t.meta_desc);
 
-  // Update lang switcher active state
-  document.querySelectorAll('[data-lang]').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-  });
+  updateLanguageSwitcher(lang);
 }
 
 function setLang(lang) {
@@ -1407,6 +1475,75 @@ function setLang(lang) {
 
   // Apply
   applyTranslations(lang);
+  closeLanguageMenu();
+}
+
+function buildLanguageMenu() {
+  const menu = document.getElementById('lang-menu');
+  if (!menu) return;
+
+  menu.innerHTML = SUPPORTED.map(lang => {
+    const item = LANGUAGE_LABELS[lang] || { flag: "🌐", code: lang.toUpperCase(), label: lang.toUpperCase() };
+    return `
+      <button class="lang-option" type="button" role="menuitem" data-lang="${lang}">
+        <span class="lang-flag" aria-hidden="true">${item.flag}</span>
+        <span>${item.label}</span>
+        <span class="lang-option-code">${item.code}</span>
+      </button>
+    `;
+  }).join('');
+
+  menu.querySelectorAll('[data-lang]').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang')));
+  });
+}
+
+function updateLanguageSwitcher(lang) {
+  const current = LANGUAGE_LABELS[lang] || { flag: "🌐", code: lang.toUpperCase(), label: lang.toUpperCase() };
+  const flag = document.getElementById('lang-current-flag');
+  const code = document.getElementById('lang-current-code');
+  const trigger = document.getElementById('lang-trigger');
+
+  if (flag) flag.textContent = current.flag;
+  if (code) code.textContent = current.code;
+  if (trigger) trigger.setAttribute('aria-label', `Current language: ${current.label}`);
+
+  document.querySelectorAll('.lang-option[data-lang]').forEach(btn => {
+    const isActive = btn.getAttribute('data-lang') === lang;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-current', isActive ? 'true' : 'false');
+  });
+}
+
+function closeLanguageMenu() {
+  const trigger = document.getElementById('lang-trigger');
+  const menu = document.getElementById('lang-menu');
+  if (!trigger || !menu) return;
+  trigger.setAttribute('aria-expanded', 'false');
+  menu.hidden = true;
+}
+
+function initLanguageMenu() {
+  const trigger = document.getElementById('lang-trigger');
+  const menu = document.getElementById('lang-menu');
+  const switcher = document.getElementById('lang-switcher');
+  if (!trigger || !menu || !switcher) return;
+
+  buildLanguageMenu();
+
+  trigger.addEventListener('click', () => {
+    const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+    trigger.setAttribute('aria-expanded', String(!isOpen));
+    menu.hidden = isOpen;
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!switcher.contains(event.target)) closeLanguageMenu();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeLanguageMenu();
+  });
 }
 
 /* ============================================================
@@ -1430,12 +1567,8 @@ function initReveal() {
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   const lang = detectLang();
+  initLanguageMenu();
   applyTranslations(lang);
-
-  // Update active button on load
-  document.querySelectorAll('[data-lang]').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-  });
 
   initReveal();
 });
